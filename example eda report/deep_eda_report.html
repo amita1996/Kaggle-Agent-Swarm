@@ -1,0 +1,290 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MLSP 2013 Birds - EDA Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f5f5f5; }
+        h1 { color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
+        h2 { color: #34495e; border-left: 4px solid #3498db; padding-left: 10px; margin-top: 30px; }
+        .container { background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #3498db; color: white; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        .metric { display: inline-block; background-color: #3498db; color: white; padding: 10px 20px; 
+                   margin: 5px; border-radius: 5px; font-weight: bold; }
+        .warning { background-color: #e74c3c; }
+        .info { background-color: #2ecc71; }
+        pre { background-color: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        img { max-width: 100%; height: auto; margin: 20px 0; border: 1px solid #ddd; }
+        .highlight { background-color: #fff3cd; padding: 15px; border-left: 4px solid #ffc107; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🐦 MLSP 2013 Birds Competition - EDA Report</h1>
+        <p><strong>Generated:</strong> 2026-03-07 13:37:02</p>
+        
+        <h2>📊 Dataset Overview</h2>
+        <div>
+            <span class="metric">Recordings: 645</span>
+            <span class="metric">Species: 19</span>
+            <span class="metric">Train: 179</span>
+            <span class="metric">Test: 466</span>
+            <span class="metric">Audio: 10s @ 16kHz</span>
+        </div>
+        
+        <h2>🔍 Key Findings</h2>
+        <div class="highlight">
+            <h3>Critical Observations:</h3>
+            <ul>
+                <li><strong>Multi-label Task:</strong> Each recording can contain 1-6+ species simultaneously</li>
+                <li><strong>Class Imbalance:</strong> Most frequent species appears 64 times, least frequent 4 times</li>
+                <li><strong>Fixed Split:</strong> Competition provides train/test split (no temporal leakage)</li>
+                <li><strong>Supplemental Features:</strong> Pre-computed segment features (38-dim) and BoS histograms (100-dim)</li>
+            </ul>
+        </div>
+        
+        <h2>📈 Species Distribution</h2>
+        <table>
+            <tr>
+                <th>Species ID</th>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Train Count</th>
+                <th>Frequency (%)</th>
+                <th>Bar</th>
+            </tr>
+
+            <tr>
+                <td>0</td>
+                <td>BRCR</td>
+                <td>Brown Creeper</td>
+                <td>7</td>
+                <td>3.9%</td>
+                <td>█</td>
+            </tr>
+
+            <tr>
+                <td>1</td>
+                <td>PAWR</td>
+                <td>Pacific Wren</td>
+                <td>35</td>
+                <td>19.6%</td>
+                <td>█████████</td>
+            </tr>
+
+            <tr>
+                <td>2</td>
+                <td>PSFL</td>
+                <td>Pacific-slope Flycatcher</td>
+                <td>21</td>
+                <td>11.7%</td>
+                <td>█████</td>
+            </tr>
+
+            <tr>
+                <td>3</td>
+                <td>RBNU</td>
+                <td>Red-breasted Nuthatch</td>
+                <td>4</td>
+                <td>2.2%</td>
+                <td>█</td>
+            </tr>
+
+            <tr>
+                <td>4</td>
+                <td>DEJU</td>
+                <td>Dark-eyed Junco</td>
+                <td>13</td>
+                <td>7.3%</td>
+                <td>███</td>
+            </tr>
+
+            <tr>
+                <td>5</td>
+                <td>OSFL</td>
+                <td>Olive-sided Flycatcher</td>
+                <td>8</td>
+                <td>4.5%</td>
+                <td>██</td>
+            </tr>
+
+            <tr>
+                <td>6</td>
+                <td>HETH</td>
+                <td>Hermit Thrush</td>
+                <td>25</td>
+                <td>14.0%</td>
+                <td>██████</td>
+            </tr>
+
+            <tr>
+                <td>7</td>
+                <td>CBCH</td>
+                <td>Chestnut-backed Chickadee</td>
+                <td>22</td>
+                <td>12.3%</td>
+                <td>██████</td>
+            </tr>
+
+            <tr>
+                <td>8</td>
+                <td>VATH</td>
+                <td>Varied Thrush</td>
+                <td>29</td>
+                <td>16.2%</td>
+                <td>████████</td>
+            </tr>
+
+            <tr>
+                <td>9</td>
+                <td>HEWA</td>
+                <td>Hermit Warbler</td>
+                <td>25</td>
+                <td>14.0%</td>
+                <td>██████</td>
+            </tr>
+
+            <tr>
+                <td>10</td>
+                <td>SWTH</td>
+                <td>Swainson's Thrush</td>
+                <td>64</td>
+                <td>35.8%</td>
+                <td>█████████████████</td>
+            </tr>
+
+            <tr>
+                <td>11</td>
+                <td>HAFL</td>
+                <td>Hammond's Flycatcher</td>
+                <td>12</td>
+                <td>6.7%</td>
+                <td>███</td>
+            </tr>
+
+            <tr>
+                <td>12</td>
+                <td>WETA</td>
+                <td>Western Tanager</td>
+                <td>18</td>
+                <td>10.1%</td>
+                <td>█████</td>
+            </tr>
+
+            <tr>
+                <td>13</td>
+                <td>BHGB</td>
+                <td>Black-headed Grosbeak</td>
+                <td>6</td>
+                <td>3.4%</td>
+                <td>█</td>
+            </tr>
+
+            <tr>
+                <td>14</td>
+                <td>GCKI</td>
+                <td>Golden Crowned Kinglet</td>
+                <td>18</td>
+                <td>10.1%</td>
+                <td>█████</td>
+            </tr>
+
+            <tr>
+                <td>15</td>
+                <td>WAVI</td>
+                <td>Warbling Vireo</td>
+                <td>8</td>
+                <td>4.5%</td>
+                <td>██</td>
+            </tr>
+
+            <tr>
+                <td>16</td>
+                <td>MGWA</td>
+                <td>MacGillivray's Warbler</td>
+                <td>4</td>
+                <td>2.2%</td>
+                <td>█</td>
+            </tr>
+
+            <tr>
+                <td>17</td>
+                <td>STJA</td>
+                <td>Stellar's Jay</td>
+                <td>6</td>
+                <td>3.4%</td>
+                <td>█</td>
+            </tr>
+
+            <tr>
+                <td>18</td>
+                <td>CONI</td>
+                <td>Common Nighthawk</td>
+                <td>16</td>
+                <td>8.9%</td>
+                <td>████</td>
+            </tr>
+
+        </table>
+        
+        <h2>🎵 Multi-label Statistics</h2>
+        <table>
+            <tr><th>Metric</th><th>Value</th></tr>
+            <tr><td>Recordings with 1 species</td><td>82 (45.8%)</td></tr>
+            <tr><td>Recordings with 2 species</td><td>50 (27.9%)</td></tr>
+            <tr><td>Recordings with 3+ species</td><td>47 (26.3%)</td></tr>
+            <tr><td>Average species per recording</td><td>1.91</td></tr>
+        </table>
+        
+        <h2>🔧 Supplemental Features</h2>
+        <table>
+            <tr><th>Feature Type</th><th>Dimensions</th><th>Description</th></tr>
+            <tr><td>Segment Features</td><td>38 per segment</td><td>Per-segment audio features (spectral, temporal)</td></tr>
+            <tr><td>Segment Histogram</td><td>100 per recording</td><td>Bag-of-segments (k-means++ codebook)</td></tr>
+            <tr><td>Segment Rectangles</td><td>4 per segment</td><td>Bounding boxes (xmin, ymin, xmax, ymax)</td></tr>
+        </table>
+        
+        <h2>📊 Visualizations</h2>
+        <img src="deep_eda_report.png" alt="EDA Visualizations">
+        
+        <h2>📝 CV Strategy Recommendation</h2>
+        <div class="highlight">
+            <p><strong>Recommended:</strong> Stratified K-Fold (K=5) on the training set, stratified by the most imbalanced classes.</p>
+            <p><strong>Reason:</strong> Competition provides fixed train/test split. Internal CV needed for hyperparameter tuning.</p>
+            <p><strong>Metric:</strong> ROC-AUC (per-label), averaged across all 19 species.</p>
+        </div>
+        
+        <h2>🎯 Raw Data Sample</h2>
+        <h3>Recording ID to Filename Mapping (first 10):</h3>
+        <pre>                       rec_id  filename
+0             rec_id,filename       NaN
+1  0,PC1_20090513_050000_0010       NaN
+2  1,PC1_20090513_070000_0010       NaN
+3  2,PC1_20090606_050012_0010       NaN
+4  3,PC1_20090606_070012_0010       NaN
+5  4,PC1_20090705_050000_0010       NaN
+6  5,PC1_20090705_070000_0010       NaN
+7  6,PC1_20090804_050011_0010       NaN
+8  7,PC1_20090804_070012_0010       NaN
+9  8,PC1_20100513_043000_0010       NaN</pre>
+        
+        <h3>Labels Format (first 5 train recordings):</h3>
+        <pre>    rec_id  n_species species_present
+2        2        2.0        [11, 12]
+5        5        1.0            [10]
+13      13        2.0        [15, 17]
+18      18        1.0             [1]
+19      19        1.0             [2]</pre>
+        
+        <h3>Segment Features Sample:</h3>
+        <pre>                                                                                                                                                                                                                                                                                                              rec_id  segment_id  [feature vector]
+2 0 0.954148 0.938716 0.403581 0.508965 0.000536 0.067958 0.000000 0.001418 0.000001 0.009373 0.407843 0.352941 24.048851 7.664318 91.0 115.0 24.0 18.0 348.0 73.0 15.313218 0.805556 0.067227 0.000000 0.184874 0.042017 0.067227 0.067227 0.025210 0.008403 0.084034 0.008403 0.067227 0.134454 0.008403  0.033613    0.058824          0.142857
+  1 0.941444 0.963083 0.397784 0.503964 0.000328 0.064116 0.000000 0.000520 0.000000 0.008495 0.403922 0.517241 23.310722 7.340112 92.0 111.0 19.0 30.0 457.0 92.0 18.520788 0.801754 0.016854 0.005618 0.044944 0.067416 0.112360 0.252809 0.000000 0.005618 0.022472 0.011236 0.028090 0.134831 0.028090  0.219101    0.022472          0.028090
+  2 0.965339 0.913682 0.446249 0.530913 0.000977 0.069738 0.000002 0.000856 0.000002 0.009757 0.466667 0.333333 24.411079 8.615371 98.0 130.0 32.0 13.0 343.0 70.0 14.285714 0.824519 0.180451 0.045113 0.082707 0.045113 0.037594 0.030075 0.052632 0.007519 0.135338 0.022556 0.082707 0.022556 0.015038  0.022556    0.045113          0.172932</pre>
+        
+    </div>
+</body>
+</html>
